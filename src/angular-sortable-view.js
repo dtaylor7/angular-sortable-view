@@ -1,6 +1,6 @@
 //
 // Copyright Kamil Pękala http://github.com/kamilkp
-// angular-sortable-view v0.0.15 2015/01/18
+// angular-sortable-view v0.0.13 2015/01/13
 //
 
 ;(function(window, angular){
@@ -445,8 +445,18 @@
 							if(targetLeft + helperRect.width > containmentRect.left + body.scrollLeft + containmentRect.width) // right boundary
 								targetLeft = containmentRect.left + body.scrollLeft + containmentRect.width - helperRect.width;
 						}
-						this.style.left = targetLeft - body.scrollLeft + 'px';
-						this.style.top = targetTop - body.scrollTop + 'px';
+
+						var add_left = 0;
+						var add_top = 0;
+
+						var modal_offset = $('.modal-dialog').offset();
+						if (typeof modal_offset != 'undefined') {
+							add_left = -(modal_offset.left);
+							add_top = -(modal_offset.top);
+						}
+
+						this.style.left = targetLeft - body.scrollLeft + add_left + 'px';
+						this.style.top = targetTop - body.scrollTop + add_top+ 'px';
 					};
 
 					var pointerOffset = {
@@ -458,10 +468,10 @@
 						html.off('mousemove touchmove', onMousemove);
 						html.off('mouseup touchend', mouseup);
 						html.removeClass('sv-sorting-in-progress');
-						if(moveExecuted){
+						if(moveExecuted)
 							$controllers[0].$drop($scope.$index, opts);
-						}
-						$element.removeClass('sv-visibility-hidden');
+						else
+							$element.removeClass('sv-visibility-hidden');
 					});
 
 					// onMousemove(e);
