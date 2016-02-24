@@ -450,7 +450,7 @@
 						var add_top = 0;
 
 						var modal_offset = $('.modal-dialog').offset();
-						if (typeof modal_offset != 'undefined') {
+						if (navigator.browserInfo.browser !== "IE" && typeof modal_offset != 'undefined') {
 							add_left = -(modal_offset.left);
 							add_top = -(modal_offset.top);
 						}
